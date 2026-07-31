@@ -19,6 +19,11 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
+  "//overrides": "Next pins older nested copies of sharp and postcss. Both are build-time only, since the deploy is static files, but pinning the patched versions keeps npm audit clean without downgrading Next.",
+  "overrides": {
+    "sharp": "^0.35.3",
+    "postcss": "^8.5.25"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^22.10.0",

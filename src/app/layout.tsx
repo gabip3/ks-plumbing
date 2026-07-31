@@ -112,6 +112,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en-US"
       className={`${archivo.variable} ${poppins.variable} ${instrumentSerif.variable} ${plexMono.variable}`}
     >
+      <head>
+        {/* The gallery asks Cloudinary for uploaded photos on load. Opening the
+            connection early saves a DNS lookup and a TLS handshake. */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body>
         <MotionRoot>{children}</MotionRoot>
         <JsonLd />

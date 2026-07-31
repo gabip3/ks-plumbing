@@ -17,8 +17,22 @@ export function JsonLd() {
     url: site.url,
     telephone: site.phone.e164,
     email: site.email,
-    image: `${site.url}/assets/og/og-cover.jpg`,
+    logo: `${site.url}/assets/brand/ks-logo.png`,
+    // Google prefers several images, and prefers them in different shapes.
+    image: [
+      `${site.url}/assets/og/og-cover.jpg`,
+      `${site.url}/assets/gallery/project-01.webp`,
+      `${site.url}/assets/gallery/project-03.webp`,
+    ],
     priceRange: '$$',
+    currenciesAccepted: 'USD',
+    paymentAccepted: 'Cash, Check, Credit Card',
+    /**
+     * Add the Google Business Profile and any social pages here once they
+     * exist. It is the strongest single signal tying this site to the map
+     * listing, which is where most plumbing calls actually come from.
+     */
+    sameAs: [] as string[],
     address: {
       '@type': 'PostalAddress',
       addressLocality: site.address.city,
@@ -55,7 +69,19 @@ export function JsonLd() {
       name: 'Plumbing services',
       itemListElement: services.map((s) => ({
         '@type': 'Offer',
-        itemOffered: { '@type': 'Service', name: s.title, description: s.body },
+        itemOffered: {
+          '@type': 'Service',
+          name: s.title,
+          description: s.body,
+          serviceType: s.title,
+          provider: { '@id': `${site.url}/#business` },
+          // Each service is offered across the whole service area, which is
+          // what lets a "water heater repair Meridian" style query match.
+          areaServed: areas.map((a) => ({
+            '@type': a.name === 'Treasure Valley' ? 'AdministrativeArea' : 'City',
+            name: a.name === 'Treasure Valley' ? 'Treasure Valley, Idaho' : `${a.name}, Idaho`,
+          })),
+        },
       })),
     },
   };
@@ -86,7 +112,12 @@ export function JsonLd() {
         <script
           key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          // JSON.stringify does not escape "<", so a stray "</script>" in any
+          // copy string would close this tag early and inject markup. Escaping
+          // the angle brackets closes that off for good.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema).replace(/</g, '\\u003c').replace(/>/g, '\\u003e'),
+          }}
         />
       ))}
     </>
