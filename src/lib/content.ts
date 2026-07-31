@@ -30,7 +30,7 @@ export const services: Service[] = [
     lead: 'Hard water, handled.',
     body: 'Softeners, carbon filtration and full treatment systems, installed or replaced. Treasure Valley water is hard, and it is what shortens the life of every fixture and heater in the house.',
     details: ['Softener install and replacement', 'Whole-home filtration', 'System swaps'],
-    // Photo pending. The designed plate stands in until one is added here.
+    image: '/assets/services/service-treatment.webp',
   },
   {
     id: 'drain-cleaning',
@@ -48,7 +48,7 @@ export const services: Service[] = [
     lead: 'Hot water, sized to your house.',
     body: 'Repairs, straight swaps and tankless conversions. Gas, electric or hybrid, sized around how many showers actually run at 7 a.m. instead of a generic chart.',
     details: ['Tank and tankless', 'Repair or replacement', 'Flush and maintenance'],
-    // Photo pending. The designed plate stands in until one is added here.
+    image: '/assets/services/service-heater.webp',
   },
   {
     id: 'pipe-repair',

@@ -38,6 +38,14 @@ const SHAPES = {
    * per photograph, which would slide the subject sideways as you drag.
    */
   compare: { w: 1100, h: 1375, q: 80, position: 'centre' },
+  /**
+   * `portrait`, anchored to one end. The two stock photos each carry something
+   * that has to be cropped out, and it sits at opposite ends of the frame: a
+   * loose wire and a European socket above the water heater, a broom and a rag
+   * on the floor below the treatment tanks.
+   */
+  portraitLow: { w: 900, h: 1125, q: 78, position: 'bottom' },
+  portraitHigh: { w: 900, h: 1125, q: 78, position: 'top' },
 };
 
 const JOBS = [
@@ -49,8 +57,12 @@ const JOBS = [
   ['ks18.jpg', 'about/about-work.webp', 'landscape'],
 
   // ── services ────────────────────────────────────────────────────────────
-  // Water Heater and Water Treatment have no photo yet and show the designed
-  // plate until one lands. Add a line here when the client sends them.
+  // The only two stock photos on the site. Everything else is the client's own
+  // work, so these are cropped hard to the equipment and kept in the same
+  // register as the rest.
+  ['water-heater.jpg', 'services/service-heater.webp', 'portraitLow'],
+  ['water-treatment.jpg', 'services/service-treatment.webp', 'portraitHigh'],
+
   ['ks12.jpg', 'services/service-emergency.webp', 'portrait'],
   ['ks20.jpg', 'services/service-drain.webp', 'portrait'],
   ['ks10.jpg', 'services/service-pipe.webp', 'portrait'],
