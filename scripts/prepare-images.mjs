@@ -32,7 +32,12 @@ const SHAPES = {
   tall: { w: 900, h: 1320, q: 78 },
   square: { w: 1000, h: 1000, q: 78 },
   landscape: { w: 1400, h: 875, q: 78 },
-  compare: { w: 1100, h: 1375, q: 80 },
+  /**
+   * Centre crop, not attention. The two halves of a wipe slider have to stay
+   * registered with each other, and attention gravity picks a different region
+   * per photograph, which would slide the subject sideways as you drag.
+   */
+  compare: { w: 1100, h: 1375, q: 80, position: 'centre' },
 };
 
 const JOBS = [
@@ -72,27 +77,17 @@ const JOBS = [
   ['AFTER1.jpeg', 'gallery/project-16.webp', 'square'],
 
   /*
-   * Before / after pairs.
-   *
-   * The originals arrived unsorted, so these were matched by reading the rooms
-   * rather than trusting the file names:
-   *
-   *  pair-01  BEFORE (2) -> AFTER3   Same crawlspace. Confirmed by the concrete
-   *                                  stem wall with its efflorescence streak,
-   *                                  the yellow flex duct, the vapor barrier and
-   *                                  the joist layout. BEFORE (1) is a second
-   *                                  angle of the same run, kept in reserve.
-   *  pair-02  BEFORE (3) -> AFTER2   Same house, adjacent joist bay: matching
-   *                                  pink insulation, foil-wrapped duct and
-   *                                  framing. Corroded copper out, PEX in.
-   *
-   * AFTER1, AFTER4 and AFTER5 are a different job, a new bathroom rough-in,
-   * and have no before photos. They are in the gallery instead.
+   * Before / after pairs. These four came from the client already matched,
+   * named before_site* and after_site*, so no guesswork was needed.
    */
-  ['BEFORE (2).jpeg', 'before-after/pair-01-before.webp', 'compare'],
-  ['AFTER3.jpg', 'before-after/pair-01-after.webp', 'compare'],
-  ['BEFORE (3).jpeg', 'before-after/pair-02-before.webp', 'compare'],
-  ['AFTER2.jpg', 'before-after/pair-02-after.webp', 'compare'],
+  ['before_site.jpeg', 'before-after/pair-01-before.webp', 'compare'],
+  ['after_site.jpg', 'before-after/pair-01-after.webp', 'compare'],
+  ['before_site_1.jpg', 'before-after/pair-02-before.webp', 'compare'],
+  ['after_site_1.jpg', 'before-after/pair-02-after.webp', 'compare'],
+  ['before_site2.jpg', 'before-after/pair-03-before.webp', 'compare'],
+  ['after_site2.jpg', 'before-after/pair-03-after.webp', 'compare'],
+  ['before_site_3.jpg', 'before-after/pair-04-before.webp', 'compare'],
+  ['after_site3.jpg', 'before-after/pair-04-after.webp', 'compare'],
 ];
 
 let bytes = 0;
@@ -107,14 +102,18 @@ let bytes = 0;
 const SMALL_WIDTH = 520;
 
 for (const [src, dest, shape] of JOBS) {
-  const { w, h, q } = SHAPES[shape];
+  const { w, h, q, position } = SHAPES[shape];
   const outPath = path.join(OUT_ROOT, dest);
   await mkdir(path.dirname(outPath), { recursive: true });
 
   const pipeline = () =>
     sharp(path.join(SOURCE_DIR, src))
       .rotate()
-      .resize(w, h, { fit: 'cover', position: sharp.strategy.attention, withoutEnlargement: true });
+      .resize(w, h, {
+        fit: 'cover',
+        position: position ?? sharp.strategy.attention,
+        withoutEnlargement: true,
+      });
 
   const info = await pipeline().webp({ quality: q, effort: 5 }).toFile(outPath);
   bytes += info.size;

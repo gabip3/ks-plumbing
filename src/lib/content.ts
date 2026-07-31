@@ -303,37 +303,62 @@ export type ComparisonPair = {
 };
 
 /**
- * The client's own before / after photos.
+ * The client's own before / after photos, supplied already matched. To change
+ * a pairing, swap the file names in scripts/prepare-images.mjs and run
+ * `npm run images`.
  *
- * The originals arrived unsorted, so the pairs were matched by reading the
- * rooms rather than the file names. Both pairs below are the same crawlspace,
- * identified by the concrete stem wall, the foil-wrapped flex duct, the pink
- * insulation and the joist layout. See the note in scripts/prepare-images.mjs
- * for the full reasoning, and swap the file names there if a pairing needs
- * correcting, then run `npm run images`.
+ * NOTE: the `location` on each pair is generic. Replace with the real city
+ * once the client confirms, since city names are what local search matches on.
  */
 export const comparisons: ComparisonPair[] = [
   {
     id: 'pair-01',
-    title: 'Crawlspace waste line rebuilt',
+    title: 'Water line protected from freezing',
     before: '/assets/before-after/pair-01-before.webp',
     after: '/assets/before-after/pair-01-after.webp',
-    beforeAlt: 'Old crawlspace drain assembly held up by rusted strapping',
-    afterAlt: 'Rebuilt ABS waste line, properly supported and sloped',
-    beforeNote: 'Rusted strapping, sagging joints, and no consistent fall on the line.',
-    afterNote: 'New ABS run with the correct fall, hung off the joists instead of the ducting.',
-    location: 'Boise',
+    beforeAlt: 'Water supply line left exposed below the insulation in a crawlspace',
+    afterAlt: 'The same line tucked back inside the insulation and closed in',
+    beforeNote:
+      'Supply line hanging below the batt, out in the air that moves through a crawlspace all winter.',
+    afterNote:
+      'Line tucked back up inside the insulation and closed in, so it is no longer the first thing in the house to freeze.',
+    location: 'Treasure Valley',
   },
   {
     id: 'pair-02',
-    title: 'Corroded copper replaced',
+    title: 'Drain and vent rebuilt through the floor',
     before: '/assets/before-after/pair-02-before.webp',
     after: '/assets/before-after/pair-02-after.webp',
-    beforeAlt: 'Corroded copper supply lines and old fittings in a crawlspace',
-    afterAlt: 'New PEX supply line with a clean brass transition fitting',
-    beforeNote: 'Green corrosion at every joint, and a fitting already weeping.',
-    afterNote: 'Replaced in PEX with a brass transition, clipped and clear of the framing.',
-    location: 'Boise',
+    beforeAlt: 'Opened subfloor with old waste lines cut back and nothing connected',
+    afterAlt: 'New ABS waste and vent run, stubbed for fixtures and tied into the stack',
+    beforeNote: 'Floor opened up, the old waste lines cut back, nothing tied together.',
+    afterNote:
+      'New ABS waste and vent run, stubbed for the fixtures and tied into the stack going up the wall.',
+    location: 'Treasure Valley',
+  },
+  {
+    id: 'pair-03',
+    title: 'Valve and supply lines set to layout',
+    before: '/assets/before-after/pair-03-before.webp',
+    after: '/assets/before-after/pair-03-after.webp',
+    beforeAlt: 'Bare stud bay with the valve position marked in pencil on the framing',
+    afterAlt: 'Valve mounted on the mark with hot and cold PEX run in and secured',
+    beforeNote: 'Bare stud bay with the height marked on the framing and nothing run to it.',
+    afterNote:
+      'Valve mounted on the mark, hot and cold run in and clipped, ready for the wall to close.',
+    location: 'Treasure Valley',
+  },
+  {
+    id: 'pair-04',
+    title: 'New vent run up the wall',
+    before: '/assets/before-after/pair-04-before.webp',
+    after: '/assets/before-after/pair-04-after.webp',
+    beforeAlt: 'Interior wall opened at the ceiling to trace the line, insulation pulled back',
+    afterAlt: 'New ABS vent run straight up through the top plate and turned into the attic',
+    beforeNote: 'Wall opened to find the run. Insulation pulled back, and a gap where it had to go.',
+    afterNote:
+      'New ABS run straight up through the top plate and turned into the attic, with the framing and insulation put back around it.',
+    location: 'Treasure Valley',
   },
 ];
 
