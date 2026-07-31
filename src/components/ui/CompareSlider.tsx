@@ -81,6 +81,8 @@ export function CompareSlider({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={asset(after)}
+        srcSet={`${asset(after.replace(/\.webp$/, '-sm.webp'))} 520w, ${asset(after)} 1100w`}
+        sizes="(max-width: 1024px) 100vw, 560px"
         alt={afterAlt}
         loading="lazy"
         decoding="async"
@@ -92,6 +94,8 @@ export function CompareSlider({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={asset(before)}
+          srcSet={`${asset(before.replace(/\.webp$/, '-sm.webp'))} 520w, ${asset(before)} 1100w`}
+          sizes="(max-width: 1024px) 100vw, 560px"
           alt={beforeAlt}
           loading="lazy"
           decoding="async"

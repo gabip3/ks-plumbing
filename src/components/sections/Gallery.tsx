@@ -228,6 +228,7 @@ export function Gallery() {
                   <Plate
                     fill
                     tone="royal"
+                    sizes="(max-width: 640px) 100vw, 900px"
                     index={current.id.replace('project-', 'No. ')}
                     alt={current.alt}
                     src={current.src}

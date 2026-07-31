@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MEDIA_READY, ratioClass, type Ratio } from '@/lib/media';
 import { asset } from '@/lib/paths';
 import { cx } from '@/lib/utils';
@@ -18,6 +18,8 @@ type PlateProps = {
   tone?: 'navy' | 'royal' | 'steel';
   /** Set when the parent already controls height (full-bleed hero, etc). */
   fill?: boolean;
+  /** Override when this plate is rendered much larger than the default. */
+  sizes?: string;
 };
 
 const tones = {
@@ -41,10 +43,25 @@ export function Plate({
   priority,
   tone = 'navy',
   fill,
+  sizes,
 }: PlateProps) {
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const showImage = MEDIA_READY && Boolean(src) && !failed;
+
+  /**
+   * The browser starts fetching as soon as it parses the tag, but React only
+   * attaches onLoad once it hydrates. On a phone that gap is wide enough that
+   * a photo can finish first, the event is missed, and the image sits at
+   * opacity-0 for good. This ref runs at attach time and catches that case.
+   *
+   * It only ever reveals, never hides: onError is the one thing allowed to
+   * decide a photo failed, so a slow decode can never strand a good image on
+   * the placeholder.
+   */
+  const settle = useCallback((el: HTMLImageElement | null) => {
+    if (el?.complete && el.naturalWidth > 0) setLoaded(true);
+  }, []);
 
   return (
     <div
@@ -109,7 +126,10 @@ export function Plate({
       {showImage && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
+          ref={settle}
           src={asset(src!)}
+          srcSet={`${asset(src!.replace(/\.webp$/, '-sm.webp'))} 520w, ${asset(src!)} 1200w`}
+          sizes={sizes ?? '(max-width: 640px) 50vw, (max-width: 1024px) 45vw, 500px'}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"

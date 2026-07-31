@@ -97,20 +97,36 @@ const JOBS = [
 
 let bytes = 0;
 
+/**
+ * Each photo is written twice: the full size, and a narrow one for phones.
+ *
+ * A gallery tile is about 180px wide in the two-column mobile grid, so serving
+ * the 900px file there costs roughly twenty-five times the pixels for no
+ * visible gain. Plate picks between them with srcset.
+ */
+const SMALL_WIDTH = 520;
+
 for (const [src, dest, shape] of JOBS) {
   const { w, h, q } = SHAPES[shape];
   const outPath = path.join(OUT_ROOT, dest);
   await mkdir(path.dirname(outPath), { recursive: true });
 
-  const info = await sharp(path.join(SOURCE_DIR, src))
-    .rotate()
-    .resize(w, h, { fit: 'cover', position: sharp.strategy.attention, withoutEnlargement: true })
-    .webp({ quality: q, effort: 5 })
-    .toFile(outPath);
+  const pipeline = () =>
+    sharp(path.join(SOURCE_DIR, src))
+      .rotate()
+      .resize(w, h, { fit: 'cover', position: sharp.strategy.attention, withoutEnlargement: true });
 
+  const info = await pipeline().webp({ quality: q, effort: 5 }).toFile(outPath);
   bytes += info.size;
+
+  const small = await pipeline()
+    .resize({ width: SMALL_WIDTH, withoutEnlargement: true })
+    .webp({ quality: q - 4, effort: 5 })
+    .toFile(outPath.replace(/\.webp$/, '-sm.webp'));
+  bytes += small.size;
+
   console.log(
-    `${dest.padEnd(38)} ${String(info.width).padStart(4)}×${String(info.height).padEnd(4)}  ${(info.size / 1024).toFixed(0)} KB`,
+    `${dest.padEnd(38)} ${String(info.width).padStart(4)}×${String(info.height).padEnd(5)} ${(info.size / 1024).toFixed(0).padStart(4)} KB   +sm ${String(small.width).padStart(3)}px ${(small.size / 1024).toFixed(0).padStart(3)} KB`,
   );
 }
 
