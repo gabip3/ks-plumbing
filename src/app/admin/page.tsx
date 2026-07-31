@@ -61,7 +61,7 @@ function Lock({ onUnlock }: { onUnlock: () => void }) {
         <Logo tone="light" size="lg" className="mx-auto" />
         <h1 className="mt-8 text-[1.5rem] font-bold tracking-[-0.03em]">Photo panel</h1>
         <p className="mt-2 text-[1rem] font-medium text-white/60">
-          Hi Jessica and Kaleb. Enter the password to add photos.
+          Hi Jessica and Khaleb. Enter the password to add photos.
         </p>
 
         <input

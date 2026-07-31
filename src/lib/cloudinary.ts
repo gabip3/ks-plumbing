@@ -3,7 +3,7 @@
  *
  * Uploads go straight from the browser to Cloudinary with an unsigned preset,
  * tagged by category. The gallery then reads those tags back and merges the
- * new photos in with the ones committed to the repo, so Jessica and Kaleb can
+ * new photos in with the ones committed to the repo, so Jessica and Khaleb can
  * add work without anyone touching the code or running a deploy.
  */
 

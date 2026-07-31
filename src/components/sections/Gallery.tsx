@@ -21,7 +21,7 @@ export function Gallery() {
   const [uploaded, setUploaded] = useState<GalleryItem[]>([]);
 
   /**
-   * Anything Jessica and Kaleb publish from the photo panel is pulled in here
+   * Anything Jessica and Khaleb publish from the photo panel is pulled in here
    * and shown ahead of the photos committed to the repo, so the newest work
    * leads. If Cloudinary is unreachable the section simply shows what shipped.
    */
