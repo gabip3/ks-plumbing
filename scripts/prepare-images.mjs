@@ -1,0 +1,167 @@
+/**
+ * Turns the client's original photographs into the web assets the site expects.
+ *
+ *   node scripts/prepare-images.mjs
+ *
+ * Reads from SOURCE_DIR, writes WebP into public/assets/**. Re-run it any time
+ * new photos land — it is idempotent and overwrites in place.
+ *
+ * Crops use `attention` gravity, which keeps the busiest part of the frame
+ * (the work) rather than the geometric centre.
+ */
+import sharp from 'sharp';
+import { mkdir } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const SOURCE_DIR = path.resolve(here, '../..');
+const OUT_ROOT = path.resolve(here, '../public/assets');
+
+/**
+ * Every source photograph is a 3:4 phone frame, so the hero keeps its native
+ * portrait crop and is placed with object-cover rather than being stretched
+ * into a letterbox it does not have the pixels for.
+ *
+ * Sizes match the aspect classes in src/lib/media.ts.
+ */
+const SHAPES = {
+  heroFull: { w: 1200, h: 1600, q: 80 },
+  heroTall: { w: 900, h: 1320, q: 78 },
+  portrait: { w: 900, h: 1125, q: 78 },
+  tall: { w: 900, h: 1320, q: 78 },
+  square: { w: 1000, h: 1000, q: 78 },
+  landscape: { w: 1400, h: 875, q: 78 },
+  compare: { w: 1100, h: 1375, q: 80 },
+};
+
+const JOBS = [
+  // ── hero ────────────────────────────────────────────────────────────────
+  ['ks07.jpg', 'hero/hero-main.webp', 'heroFull'],
+
+  // ── about ───────────────────────────────────────────────────────────────
+  ['ks09.jpg', 'about/about-crew.webp', 'tall'],
+  ['ks18.jpg', 'about/about-work.webp', 'landscape'],
+
+  // ── services ────────────────────────────────────────────────────────────
+  ['ks12.jpg', 'services/service-emergency.webp', 'portrait'],
+  ['ks15.jpg', 'services/service-leak.webp', 'portrait'],
+  ['ks20.jpg', 'services/service-drain.webp', 'portrait'],
+  ['ks24.jpg', 'services/service-heater.webp', 'portrait'],
+  ['ks10.jpg', 'services/service-pipe.webp', 'portrait'],
+  ['ks03.jpg', 'services/service-fixture.webp', 'portrait'],
+  ['ks23.jpg', 'services/service-commercial.webp', 'portrait'],
+  ['ks04.jpg', 'services/service-residential.webp', 'portrait'],
+
+  // ── gallery ─────────────────────────────────────────────────────────────
+  ['ks07.jpg', 'gallery/project-01.webp', 'portrait'],
+  ['ks04.jpg', 'gallery/project-02.webp', 'landscape'],
+  ['ks20.jpg', 'gallery/project-03.webp', 'square'],
+  ['ks18.jpg', 'gallery/project-04.webp', 'tall'],
+  ['ks23.jpg', 'gallery/project-05.webp', 'landscape'],
+  ['ks05.jpg', 'gallery/project-06.webp', 'portrait'],
+  ['ks15.jpg', 'gallery/project-07.webp', 'square'],
+  ['ks21.jpg', 'gallery/project-08.webp', 'landscape'],
+  ['AFTER5.jpg', 'gallery/project-09.webp', 'tall'],
+  ['ks03.jpg', 'gallery/project-10.webp', 'portrait'],
+  ['ks19.jpg', 'gallery/project-11.webp', 'square'],
+  ['ks10.jpg', 'gallery/project-12.webp', 'landscape'],
+  ['ks11.jpg', 'gallery/project-13.webp', 'portrait'],
+  ['ks22.jpg', 'gallery/project-14.webp', 'square'],
+  ['AFTER4.jpg', 'gallery/project-15.webp', 'portrait'],
+  ['AFTER1.jpeg', 'gallery/project-16.webp', 'square'],
+
+  /*
+   * Before / after pairs.
+   *
+   * The originals arrived unsorted, so these were matched by reading the rooms
+   * rather than trusting the file names:
+   *
+   *  pair-01  BEFORE (2) -> AFTER3   Same crawlspace. Confirmed by the concrete
+   *                                  stem wall with its efflorescence streak,
+   *                                  the yellow flex duct, the vapor barrier and
+   *                                  the joist layout. BEFORE (1) is a second
+   *                                  angle of the same run, kept in reserve.
+   *  pair-02  BEFORE (3) -> AFTER2   Same house, adjacent joist bay: matching
+   *                                  pink insulation, foil-wrapped duct and
+   *                                  framing. Corroded copper out, PEX in.
+   *
+   * AFTER1, AFTER4 and AFTER5 are a different job, a new bathroom rough-in,
+   * and have no before photos. They are in the gallery instead.
+   */
+  ['BEFORE (2).jpeg', 'before-after/pair-01-before.webp', 'compare'],
+  ['AFTER3.jpg', 'before-after/pair-01-after.webp', 'compare'],
+  ['BEFORE (3).jpeg', 'before-after/pair-02-before.webp', 'compare'],
+  ['AFTER2.jpg', 'before-after/pair-02-after.webp', 'compare'],
+];
+
+let bytes = 0;
+
+for (const [src, dest, shape] of JOBS) {
+  const { w, h, q } = SHAPES[shape];
+  const outPath = path.join(OUT_ROOT, dest);
+  await mkdir(path.dirname(outPath), { recursive: true });
+
+  const info = await sharp(path.join(SOURCE_DIR, src))
+    .rotate()
+    .resize(w, h, { fit: 'cover', position: sharp.strategy.attention, withoutEnlargement: true })
+    .webp({ quality: q, effort: 5 })
+    .toFile(outPath);
+
+  bytes += info.size;
+  console.log(
+    `${dest.padEnd(38)} ${String(info.width).padStart(4)}×${String(info.height).padEnd(4)}  ${(info.size / 1024).toFixed(0)} KB`,
+  );
+}
+
+// ── Open Graph card ───────────────────────────────────────────────────────
+// 1200×630 JPG, because Facebook, LinkedIn and iMessage will not render SVG.
+const OG_W = 1200;
+const OG_H = 630;
+
+const ogPhoto = await sharp(path.join(SOURCE_DIR, 'ks07.jpg'))
+  .rotate()
+  .resize(OG_W, OG_H, { fit: 'cover', position: sharp.strategy.attention })
+  .toBuffer();
+
+const ogOverlay = Buffer.from(`
+<svg width="${OG_W}" height="${OG_H}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="scrim" x1="0" y1="1" x2="0.35" y2="0">
+      <stop offset="0" stop-color="#050b16" stop-opacity="0.97"/>
+      <stop offset="0.55" stop-color="#050b16" stop-opacity="0.82"/>
+      <stop offset="1" stop-color="#050b16" stop-opacity="0.42"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12161c"/>
+      <stop offset="0.38" stop-color="#8b939e"/>
+      <stop offset="0.58" stop-color="#3b424b"/>
+      <stop offset="1" stop-color="#171b21"/>
+    </linearGradient>
+  </defs>
+  <rect width="${OG_W}" height="${OG_H}" fill="url(#scrim)"/>
+  <rect x="0" y="497" width="${OG_W}" height="7" fill="url(#metal)"/>
+  <rect x="232" y="487" width="15" height="27" fill="url(#metal)"/>
+  <rect x="953" y="487" width="15" height="27" fill="url(#metal)"/>
+  <g font-family="Archivo, Helvetica, Arial, sans-serif" fill="#ffffff" font-weight="700" letter-spacing="-4">
+    <text x="72" y="250" font-size="104">We show up.</text>
+    <text x="88" y="352" font-size="104">We solve it.</text>
+  </g>
+  <text x="106" y="454" font-family="Georgia, serif" font-style="italic" font-size="104" fill="#38a9f0" letter-spacing="-2">You relax.</text>
+  <g font-family="Menlo, Consolas, monospace" font-size="20" letter-spacing="2.4" fill="#ffffff">
+    <text x="72" y="558" font-weight="700">KS PLUMBING</text>
+    <text x="72" y="592" fill-opacity="0.55">BOISE, IDAHO</text>
+    <text x="1128" y="558" text-anchor="end" font-weight="700">(986) 280-9087</text>
+    <text x="1128" y="592" text-anchor="end" fill-opacity="0.55">24/7 EMERGENCY</text>
+  </g>
+</svg>`);
+
+const og = await sharp(ogPhoto)
+  .composite([{ input: ogOverlay }])
+  .jpeg({ quality: 86, mozjpeg: true })
+  .toFile(path.join(OUT_ROOT, 'og/og-cover.jpg'));
+
+bytes += og.size;
+console.log(`${'og/og-cover.jpg'.padEnd(38)} ${OG_W}×${OG_H}   ${(og.size / 1024).toFixed(0)} KB`);
+
+console.log(`\n${JOBS.length + 1} files · ${(bytes / 1024 / 1024).toFixed(2)} MB total`);
