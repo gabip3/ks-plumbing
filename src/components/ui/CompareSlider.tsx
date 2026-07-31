@@ -2,6 +2,7 @@
 
 import { m, useMotionValue, useMotionValueEvent, useSpring, useTransform } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { asset } from '@/lib/paths';
 import { cx } from '@/lib/utils';
 
 type CompareSliderProps = {
@@ -75,7 +76,7 @@ export function CompareSlider({
       {/* AFTER sits underneath and is revealed as the wipe moves left */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={after}
+        src={asset(after)}
         alt={afterAlt}
         loading="lazy"
         decoding="async"
@@ -86,7 +87,7 @@ export function CompareSlider({
       <m.div style={{ clipPath: clip }} className="absolute inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={before}
+          src={asset(before)}
           alt={beforeAlt}
           loading="lazy"
           decoding="async"

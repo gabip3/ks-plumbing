@@ -8,8 +8,14 @@ export const site = {
   legalName: 'KS Plumbing LLC',
   tagline: 'Fast. Reliable. Done right.',
   motto: 'We show up. We solve it. You relax.',
-  /** Update to the production domain before launch — used by canonical, OG and sitemap. */
-  url: 'https://ksplumbingidaho.com',
+  /**
+   * Public address of the site, including any subfolder. Drives the canonical
+   * tag, Open Graph URLs, robots.txt and sitemap.xml.
+   *
+   * The GitHub Pages workflow overrides it with NEXT_PUBLIC_SITE_URL, so when
+   * the custom domain is attached there is one value to change, in one place.
+   */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ksplumbingidaho.com',
   phone: {
     display: '(986) 280-9087',
     href: 'tel:+19862809087',

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { MEDIA_READY, ratioClass, type Ratio } from '@/lib/media';
+import { asset } from '@/lib/paths';
 import { cx } from '@/lib/utils';
 
 type PlateProps = {
@@ -108,7 +109,7 @@ export function Plate({
       {showImage && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={src}
+          src={asset(src!)}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"

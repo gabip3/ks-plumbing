@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Archivo, IBM_Plex_Mono, Instrument_Serif, Poppins } from 'next/font/google';
 import MotionRoot from '@/components/motion/MotionRoot';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { asset } from '@/lib/paths';
 import { site } from '@/lib/site';
 import './globals.css';
 
@@ -33,6 +34,8 @@ const plexMono = IBM_Plex_Mono({
   variable: '--font-plex-mono',
   display: 'swap',
 });
+
+const ogImage = `${site.url}/assets/og/og-cover.jpg`;
 
 const title = 'KS Plumbing | Plumbers in Boise, Meridian & the Treasure Valley';
 const description =
@@ -69,7 +72,9 @@ export const metadata: Metadata = {
     description,
     images: [
       {
-        url: '/assets/og/og-cover.jpg',
+        // Absolute, because a relative URL resolves against the origin and
+        // would drop the subfolder when the site is served from one.
+        url: ogImage,
         width: 1200,
         height: 630,
         alt: 'KS Plumbing. Fast, reliable, done right. Boise, Idaho.',
@@ -80,14 +85,14 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title,
     description,
-    images: ['/assets/og/og-cover.jpg'],
+    images: [ogImage],
   },
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
-  manifest: '/site.webmanifest',
+  manifest: asset('/site.webmanifest'),
   formatDetection: { telephone: true, address: true, email: true },
 };
 

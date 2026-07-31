@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Wordmark } from '@/components/brand/Wordmark';
 import logoMeta from '@/lib/logo-meta.json';
+import { asset } from '@/lib/paths';
 import { site } from '@/lib/site';
 import { cx } from '@/lib/utils';
 
@@ -53,8 +54,8 @@ export function Logo({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={SRC}
-      srcSet={`${SRC} ${logoMeta.width}w, ${SRC_2X} ${logoMeta.width2x}w`}
+      src={asset(SRC)}
+      srcSet={`${asset(SRC)} ${logoMeta.width}w, ${asset(SRC_2X)} ${logoMeta.width2x}w`}
       sizes={fluid ? '(max-width: 768px) 60vw, 480px' : '(max-width: 640px) 130px, 220px'}
       alt={decorative ? '' : site.name}
       aria-hidden={decorative || undefined}

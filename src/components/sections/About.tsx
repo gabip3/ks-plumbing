@@ -2,6 +2,7 @@
 
 import { Parallax } from '@/components/ui/Parallax';
 import { Plate } from '@/components/ui/Plate';
+import { asset } from '@/lib/paths';
 import { MaskLines, Reveal, RevealGroup, RevealItem } from '@/components/ui/Reveal';
 import { stats } from '@/lib/content';
 
@@ -20,7 +21,7 @@ export function About() {
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/assets/brand/ks-logo.png"
+          src={asset('/assets/brand/ks-logo.png')}
           alt=""
           aria-hidden
           loading="lazy"
