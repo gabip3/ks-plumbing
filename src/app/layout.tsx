@@ -39,7 +39,7 @@ const ogImage = `${site.url}/assets/og/og-cover.jpg`;
 
 const title = 'KS Plumbing | Plumbers in Boise, Meridian & the Treasure Valley';
 const description =
-  'Licensed, insured plumbers in Boise, Idaho. 24/7 emergency repairs, leak detection, drain cleaning, water heaters and repipes across the Treasure Valley. Free estimates. Call (986) 280-9087.';
+  'Licensed, insured plumbers in Boise, Idaho. Emergency repairs, drain cleaning, water heaters, water treatment and repipes across the Treasure Valley. Free estimates. Call (986) 280-9087.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     'plumber Boise',
     'plumbing Boise Idaho',
     'emergency plumber Boise',
-    'leak detection Boise',
+    'water softener Boise',
     'drain cleaning Meridian',
     'water heater repair Boise',
     'repipe Treasure Valley',

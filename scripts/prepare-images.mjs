@@ -44,10 +44,10 @@ const JOBS = [
   ['ks18.jpg', 'about/about-work.webp', 'landscape'],
 
   // ── services ────────────────────────────────────────────────────────────
+  // Water Heater and Water Treatment have no photo yet and show the designed
+  // plate until one lands. Add a line here when the client sends them.
   ['ks12.jpg', 'services/service-emergency.webp', 'portrait'],
-  ['ks15.jpg', 'services/service-leak.webp', 'portrait'],
   ['ks20.jpg', 'services/service-drain.webp', 'portrait'],
-  ['ks24.jpg', 'services/service-heater.webp', 'portrait'],
   ['ks10.jpg', 'services/service-pipe.webp', 'portrait'],
   ['ks03.jpg', 'services/service-fixture.webp', 'portrait'],
   ['ks23.jpg', 'services/service-commercial.webp', 'portrait'],
@@ -168,7 +168,7 @@ const ogOverlay = Buffer.from(`
     <text x="72" y="558" font-weight="700">KS PLUMBING</text>
     <text x="72" y="592" fill-opacity="0.55">BOISE, IDAHO</text>
     <text x="1128" y="558" text-anchor="end" font-weight="700">(986) 280-9087</text>
-    <text x="1128" y="592" text-anchor="end" fill-opacity="0.55">24/7 EMERGENCY</text>
+    <text x="1128" y="592" text-anchor="end" fill-opacity="0.55">LICENSED &amp; INSURED</text>
   </g>
 </svg>`);
 

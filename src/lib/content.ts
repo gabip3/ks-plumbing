@@ -18,19 +18,19 @@ export const services: Service[] = [
     id: 'emergency-plumbing',
     index: '01',
     title: 'Emergency Plumbing',
-    lead: 'Burst line at 2 a.m.',
-    body: 'Someone picks up the phone and someone gets in the truck. We stop the water first, contain the damage, then start the repair on the same visit.',
-    details: ['24/7 dispatch', 'Water shut-off guidance by phone', 'Same-visit repair'],
+    lead: 'Burst line, no water, drain backing up.',
+    body: 'Call or text and we work you into the schedule as fast as we can. We talk you through shutting the water off while you wait, and the repair starts on that first visit.',
+    details: ['Water shut-off guidance by phone', 'Same-visit repair', 'Call or text'],
     image: '/assets/services/service-emergency.webp',
   },
   {
-    id: 'leak-detection',
+    id: 'water-treatment',
     index: '02',
-    title: 'Leak Detection',
-    lead: 'Find it before you open a wall.',
-    body: 'Acoustic listening gear, thermal imaging and line pressure tests tell us exactly where the water is going, so the repair stays a patch instead of a remodel.',
-    details: ['Slab and underground leaks', 'Thermal imaging', 'Pressure testing'],
-    image: '/assets/services/service-leak.webp',
+    title: 'Water Treatment',
+    lead: 'Hard water, handled.',
+    body: 'Softeners, carbon filtration and full treatment systems, installed or replaced. Treasure Valley water is hard, and it is what shortens the life of every fixture and heater in the house.',
+    details: ['Softener install and replacement', 'Whole-home filtration', 'System swaps'],
+    // Photo pending. The designed plate stands in until one is added here.
   },
   {
     id: 'drain-cleaning',
@@ -47,8 +47,8 @@ export const services: Service[] = [
     title: 'Water Heater',
     lead: 'Hot water, sized to your house.',
     body: 'Repairs, straight swaps and tankless conversions. Gas, electric or hybrid, sized around how many showers actually run at 7 a.m. instead of a generic chart.',
-    details: ['Tank and tankless', 'Same-day replacement', 'Anode and flush service'],
-    image: '/assets/services/service-heater.webp',
+    details: ['Tank and tankless', 'Repair or replacement', 'Flush and maintenance'],
+    // Photo pending. The designed plate stands in until one is added here.
   },
   {
     id: 'pipe-repair',
@@ -73,8 +73,8 @@ export const services: Service[] = [
     index: '07',
     title: 'Commercial Plumbing',
     lead: 'Work that fits around your hours.',
-    body: 'Restaurants, offices and multi-unit buildings across the Valley. Grease lines, backflow testing and tenant improvements, scheduled after close when the floor has to stay open.',
-    details: ['Grease line service', 'Backflow testing', 'After-hours scheduling'],
+    body: 'Restaurants, offices and multi-unit buildings across the Valley. Grease lines, backflow testing and tenant improvements, scheduled around your hours when the floor has to stay open.',
+    details: ['Grease line service', 'Backflow testing', 'Scheduled around your hours'],
     image: '/assets/services/service-commercial.webp',
   },
   {
@@ -82,8 +82,8 @@ export const services: Service[] = [
     index: '08',
     title: 'Residential Plumbing',
     lead: 'Everything a house asks for.',
-    body: 'New construction rough-in, remodel plumbing, water softeners, pressure regulators, and the short list of small things you keep meaning to call about.',
-    details: ['New construction rough-in', 'Remodel plumbing', 'Softeners and filtration'],
+    body: 'New construction rough-in, remodel plumbing, pressure regulators, hose bibs, and the short list of small things you keep meaning to call about.',
+    details: ['New construction rough-in', 'Remodel plumbing', 'Repairs and replacements'],
     image: '/assets/services/service-residential.webp',
   },
 ];
@@ -353,7 +353,7 @@ export type Review = {
 export const reviews: Review[] = [
   {
     quote:
-      'Water was coming through the kitchen ceiling on a Sunday night. They talked me through shutting the main off while they were driving over, and had the line fixed before midnight. I have never had a trade answer the phone that fast.',
+      'Water was coming through the kitchen ceiling. They talked me through shutting the main off on the phone, got out to the house that day, and had the line fixed on the first visit. I have never had a trade answer the phone that fast.',
     name: 'Danielle R.',
     location: 'North End, Boise',
     job: 'Emergency repair',
@@ -361,10 +361,10 @@ export const reviews: Review[] = [
   },
   {
     quote:
-      'Two other companies wanted to open up the wall to look for the leak. KS found it under the slab in about forty minutes with a listening device and rerouted the line instead. The price they quoted was the price I paid.',
+      'Two other companies quoted me for a full repipe. KS looked at the same house, replaced the two sections that had actually failed, and told me the rest had years left. The price they quoted was the price I paid.',
     name: 'Marcus T.',
     location: 'Meridian',
-    job: 'Leak detection',
+    job: 'Pipe repair',
     rating: 5,
   },
   {
@@ -409,12 +409,12 @@ export const faqs: Faq[] = [
   {
     question: 'How fast can you get to me?',
     answer:
-      'Most of the Treasure Valley gets a same-day window, and true emergencies such as burst lines, sewage backups or no water in the house jump the queue at any hour.',
+      'Call or text and we will tell you honestly where you land in the day. Something actively causing damage, like a burst line, a sewage backup or no water in the house, moves to the front of the schedule.',
   },
   {
-    question: 'What does an after-hours call cost?',
+    question: 'Do you handle emergencies?',
     answer:
-      'There is an after-hours dispatch fee outside of normal business hours, and we tell you the exact amount on the phone before we roll a truck. The repair itself is quoted the same way it would be at 10 a.m. on a Tuesday.',
+      'Yes, during our working hours. We are not a 24 hour call center, so if something breaks overnight, shut the water off at the main and call us first thing. We will talk you through it on the phone and get you on the schedule that day.',
   },
   {
     question: 'Do you warranty the work?',
@@ -457,7 +457,11 @@ export const areas: Area[] = [
 ];
 
 export const stats = [
-  { value: '24/7', label: 'Emergency line', detail: 'Answered by a plumber, not a call center' },
+  {
+    value: 'In writing',
+    label: 'Workmanship warranty',
+    detail: 'Every repair, documented and covered',
+  },
   { value: '10', label: 'Cities served', detail: 'Across the Treasure Valley' },
   { value: '$0', label: 'For an estimate', detail: 'Price before the wrench comes out' },
   { value: '100%', label: 'Licensed & insured', detail: 'Idaho state licensed, fully covered' },

@@ -102,9 +102,9 @@ export function Hero() {
               className="mt-6 border-t border-white/20 pt-6 sm:mt-8 sm:pt-7"
             >
               <p className="mx-auto max-w-lg text-[1.0625rem] font-medium leading-relaxed text-white/80 md:mx-0">
-                Licensed plumbers in Boise. Emergency repairs, leak detection, water heaters and
-                repipes across the Treasure Valley, with free estimates and the price agreed
-                before the wrench comes out.
+                Licensed plumbers in Boise. Repairs, drains, water heaters and repipes across the
+                Treasure Valley, with free estimates and the price agreed before the wrench comes
+                out.
               </p>
 
               <div className="mt-6 flex flex-col items-center gap-3 sm:mt-7 sm:flex-row sm:justify-center md:justify-start">
@@ -135,7 +135,7 @@ export function Hero() {
           <div className="flex items-center gap-3">
             <PhonePulse />
             <span className="text-[0.9375rem] font-semibold tracking-[0.01em] text-white/90">
-              24/7 emergency line
+              Call or text, a plumber answers
             </span>
           </div>
           <div className="hidden items-center gap-9 md:flex">

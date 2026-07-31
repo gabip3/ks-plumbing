@@ -1,7 +1,7 @@
 {
   "name": "KS Plumbing, Boise Idaho",
   "short_name": "KS Plumbing",
-  "description": "Licensed plumbers serving Boise, Meridian and the Treasure Valley. 24/7 emergency service.",
+  "description": "Licensed plumbers serving Boise, Meridian and the Treasure Valley. Repairs, drains, water heaters and repipes.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

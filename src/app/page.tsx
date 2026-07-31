@@ -18,10 +18,10 @@ import { ScrollSpine } from '@/components/ui/ScrollSpine';
 import { Ticker } from '@/components/ui/Ticker';
 
 const tickerItems = [
-  '24/7 emergency service',
+  'Emergency repairs',
   'Free estimates',
   'Licensed & insured in Idaho',
-  'Same-day across the Treasure Valley',
+  'Serving the whole Treasure Valley',
   'Price before the work starts',
   'Workmanship warranty in writing',
 ];

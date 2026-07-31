@@ -53,7 +53,7 @@ export function Emergency() {
           </Reveal>
           <Reveal delay={0.05}>
             <span className="text-[1.0625rem] font-semibold text-white/60">
-              Answered 24 hours, 7 days
+              Monday to Saturday
             </span>
           </Reveal>
         </div>
@@ -83,8 +83,8 @@ export function Emergency() {
         <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <Reveal delay={0.1}>
             <p className="mx-auto max-w-xl text-[1.0625rem] font-medium leading-relaxed text-white/70 sm:text-[1.125rem] lg:mx-0">
-              Shut off the main if you can reach it, then call. We stay on the line while the
-              truck is moving and tell you exactly what to do until it gets there.
+              Shut off the main if you can reach it, then call. We will tell you exactly what to
+              do next and get you on the schedule as fast as we can.
             </p>
           </Reveal>
 
