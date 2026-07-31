@@ -30,21 +30,20 @@ export function Emergency() {
         className="absolute inset-0 bg-[radial-gradient(90%_120%_at_15%_0%,rgba(224,85,43,0.16),transparent_55%)]"
       />
 
-      <Parallax distance={24} className="pointer-events-none absolute inset-x-0 top-1/2">
-        <div className="relative h-[8px] w-full sm:h-[11px]">
+      {/* Desktop only: on a phone this run sits right across the paragraph. */}
+      <Parallax distance={24} className="pointer-events-none absolute inset-x-0 top-1/2 hidden lg:block">
+        <div className="relative h-[11px] w-full">
           <PipeRun axis="h" className="inset-0" />
-          <Coupling axis="h" size="sm" className="left-[18%] sm:hidden" />
-          <Coupling axis="h" size="md" className="left-[18%] max-sm:hidden" />
-          <Coupling axis="h" size="sm" className="right-[26%] sm:hidden" />
-          <Coupling axis="h" size="md" className="right-[26%] max-sm:hidden" />
+          <Coupling axis="h" size="md" className="left-[18%]" />
+          <Coupling axis="h" size="md" className="right-[26%]" />
           <span className="animate-drip absolute left-[62%] top-full h-2.5 w-2.5 rounded-full bg-water" />
         </div>
       </Parallax>
 
-      <div className="relative mx-auto max-w-[1560px] px-5 sm:px-8 lg:px-14">
+      <div className="relative mx-auto max-w-[1560px] px-5 text-center sm:px-8 lg:px-14 lg:text-left">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-baseline sm:justify-between">
           <Reveal>
-            <h2 className="flex items-center gap-4 text-[1.5rem] font-bold tracking-[-0.03em] sm:text-[2rem]">
+            <h2 className="flex items-center justify-center gap-4 text-[1.5rem] font-bold tracking-[-0.03em] sm:text-[2rem] lg:justify-start">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-pulse-ring absolute inline-flex h-full w-full rounded-full bg-signal" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
@@ -83,13 +82,13 @@ export function Emergency() {
 
         <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <Reveal delay={0.1}>
-            <p className="max-w-xl text-[1.0625rem] font-medium leading-relaxed text-white/70 sm:text-[1.125rem]">
+            <p className="mx-auto max-w-xl text-[1.0625rem] font-medium leading-relaxed text-white/70 sm:text-[1.125rem] lg:mx-0">
               Shut off the main if you can reach it, then call. We stay on the line while the
               truck is moving and tell you exactly what to do until it gets there.
             </p>
           </Reveal>
 
-          <ul className="flex flex-wrap gap-x-7 gap-y-3 lg:justify-end">
+          <ul className="flex flex-wrap justify-center gap-x-7 gap-y-3 lg:justify-end">
             {triggers.map((t) => (
               <li
                 key={t}

@@ -58,7 +58,7 @@ export function Hero() {
 
       {/* ── Layer 3, badge and promise ─────────────────────────────── */}
       <div className="relative z-10 mx-auto flex w-full max-w-[1560px] flex-1 items-center px-5 pb-8 pt-24 sm:px-8 sm:pb-10 sm:pt-32 lg:px-14">
-        <div className="grid w-full items-center gap-6 md:grid-cols-[minmax(0,0.78fr)_minmax(0,1fr)] md:gap-12 lg:gap-16">
+        <div className="grid w-full items-center gap-6 text-center md:grid-cols-[minmax(0,0.78fr)_minmax(0,1fr)] md:gap-12 md:text-left lg:gap-16">
           {/* Scroll parallax lives on the outer element, the entrance
               animation on the inner one, so the two never fight over the
               same style during hydration. */}
@@ -101,13 +101,13 @@ export function Hero() {
               transition={{ delay: 0.95, duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="mt-6 border-t border-white/20 pt-6 sm:mt-8 sm:pt-7"
             >
-              <p className="max-w-lg text-[1.0625rem] font-medium leading-relaxed text-white/80">
+              <p className="mx-auto max-w-lg text-[1.0625rem] font-medium leading-relaxed text-white/80 md:mx-0">
                 Licensed plumbers in Boise. Emergency repairs, leak detection, water heaters and
                 repipes across the Treasure Valley, with free estimates and the price agreed
                 before the wrench comes out.
               </p>
 
-              <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:items-center">
+              <div className="mt-6 flex flex-col items-center gap-3 sm:mt-7 sm:flex-row sm:justify-center md:justify-start">
                 <Action
                   href={site.phone.href}
                   variant="solid"

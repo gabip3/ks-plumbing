@@ -1,7 +1,7 @@
 'use client';
 
 import { m, useMotionValue, useMotionValueEvent, useSpring, useTransform } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { asset } from '@/lib/paths';
 import { cx } from '@/lib/utils';
 
@@ -46,29 +46,33 @@ export function CompareSlider({
     [raw],
   );
 
-  useEffect(() => {
-    if (!dragging) return;
-    const move = (e: PointerEvent) => setFromClientX(e.clientX);
-    const up = () => setDragging(false);
-    window.addEventListener('pointermove', move);
-    window.addEventListener('pointerup', up);
-    return () => {
-      window.removeEventListener('pointermove', move);
-      window.removeEventListener('pointerup', up);
-    };
-  }, [dragging, setFromClientX]);
-
   const nudge = (delta: number) => raw.set(Math.min(100, Math.max(0, raw.get() + delta)));
 
   return (
     <div
       ref={frame}
+      /**
+       * Pointer capture plus `touch-none` is what makes this draggable on a
+       * phone. Without capture the browser hands the gesture to the scroller
+       * the moment your finger moves vertically, and the handle sticks.
+       */
       onPointerDown={(e) => {
+        e.currentTarget.setPointerCapture(e.pointerId);
         setDragging(true);
         setFromClientX(e.clientX);
       }}
+      onPointerMove={(e) => {
+        if (!dragging) return;
+        e.preventDefault();
+        setFromClientX(e.clientX);
+      }}
+      onPointerUp={(e) => {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+        setDragging(false);
+      }}
+      onPointerCancel={() => setDragging(false)}
       className={cx(
-        'relative select-none overflow-hidden bg-ink',
+        'relative touch-none select-none overflow-hidden bg-ink',
         dragging ? 'cursor-grabbing' : 'cursor-grab',
         className,
       )}

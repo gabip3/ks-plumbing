@@ -10,19 +10,21 @@ const year = new Date().getFullYear();
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-ink pt-20 text-white sm:pt-24">
+    // Extra bottom padding on phones so the fixed call bar never covers the
+    // legal line.
+    <footer className="relative overflow-hidden bg-ink pb-20 pt-20 text-white sm:pt-24 lg:pb-0">
       <div aria-hidden className="grid-rule-dark absolute inset-0 opacity-50" />
 
       <div className="relative mx-auto max-w-[1560px] px-5 sm:px-8 lg:px-14">
         <div className="grid gap-12 border-b border-white/10 pb-16 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-          <Reveal className="sm:col-span-2 lg:col-span-4">
-            <Logo tone="light" size="xl" />
+          <Reveal className="text-center sm:col-span-2 lg:col-span-4 lg:text-left">
+            <Logo tone="light" size="xl" className="mx-auto lg:mx-0" />
 
-            <p className="serif-accent mt-8 max-w-[14ch] text-[2rem] leading-[1.1] sm:text-[2.5rem]">
+            <p className="serif-accent mx-auto mt-8 max-w-[14ch] text-[2rem] leading-[1.1] sm:text-[2.5rem] lg:mx-0">
               {site.motto}
             </p>
 
-            <span className="mt-8 flex items-center gap-3">
+            <span className="mt-8 flex items-center justify-center gap-3 lg:justify-start">
               <PhonePulse />
               <span className="text-[0.9375rem] font-bold uppercase tracking-[0.14em] text-live">
                 Free estimate
@@ -37,7 +39,7 @@ export function Footer() {
             </a>
             <a
               href={`mailto:${site.email}`}
-              className="flex min-h-11 items-center break-all text-[1.0625rem] font-medium text-white/55 underline-offset-4 hover:text-white hover:underline sm:min-h-0"
+              className="flex min-h-11 items-center justify-center break-all text-[1.0625rem] font-medium text-white/55 underline-offset-4 hover:text-white hover:underline lg:min-h-0 lg:justify-start"
             >
               {site.email}
             </a>

@@ -1,3 +1,4 @@
+import { CallBar } from '@/components/layout/CallBar';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { About } from '@/components/sections/About';
@@ -11,6 +12,8 @@ import { Hero } from '@/components/sections/Hero';
 import { Process } from '@/components/sections/Process';
 import { Reviews } from '@/components/sections/Reviews';
 import { Services } from '@/components/sections/Services';
+import { DropletTrail } from '@/components/ui/DropletTrail';
+import { PipeDivider } from '@/components/ui/PipeDivider';
 import { ScrollSpine } from '@/components/ui/ScrollSpine';
 import { Ticker } from '@/components/ui/Ticker';
 
@@ -28,21 +31,26 @@ export default function HomePage() {
     <>
       <Header />
       <ScrollSpine />
+      <DropletTrail />
       <main>
         <Hero />
         <Ticker items={tickerItems} />
         <Services />
+        <PipeDivider />
         <About />
         <Emergency />
+        <PipeDivider />
         <Process />
         <Gallery />
         <BeforeAfter />
+        <PipeDivider />
         <Reviews />
         <Faq />
         <Areas />
         <Contact />
       </main>
       <Footer />
+      <CallBar />
     </>
   );
 }

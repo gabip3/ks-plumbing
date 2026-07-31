@@ -22,7 +22,7 @@ export function Contact() {
         />
         <span aria-hidden className="metal absolute right-0 top-0 hidden h-full w-[3px] lg:block" />
 
-        <div className="relative lg:sticky lg:top-36">
+        <div className="relative text-center lg:sticky lg:top-36 lg:text-left">
           <h2 className="display-md">
             <MaskLines
               className="block"
@@ -37,7 +37,10 @@ export function Contact() {
 
           <Reveal delay={0.1}>
             <div className="mt-10 border-y border-white/15 py-5">
-              <a href={site.phone.href} className="group flex min-h-12 items-center gap-4">
+              <a
+                href={site.phone.href}
+                className="group flex min-h-12 items-center justify-center gap-4 lg:justify-start"
+              >
                 <PhonePulse />
                 <span className="font-mono text-[1.5rem] font-semibold tracking-[-0.02em] transition-colors duration-500 group-hover:text-water sm:text-[1.75rem]">
                   {site.phone.display}
@@ -82,7 +85,7 @@ export function Contact() {
           </Reveal>
 
           <Reveal delay={0.2}>
-            <div className="mt-10 border-t border-white/15 pt-7">
+            <div className="mt-10 border-t border-white/15 pt-7 text-left">
               <h3 className="text-[0.875rem] font-bold uppercase tracking-[0.16em] text-white/45">
                 Hours
               </h3>
@@ -123,8 +126,8 @@ export function Contact() {
 
 function Row({ term, children }: { term: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-6">
-      <dt className="shrink-0 text-[0.875rem] font-bold uppercase tracking-[0.16em] text-white/45 sm:w-24">
+    <div className="flex flex-col items-center gap-1 lg:flex-row lg:items-baseline lg:gap-6">
+      <dt className="shrink-0 text-[0.875rem] font-bold uppercase tracking-[0.16em] text-white/45 lg:w-24">
         {term}
       </dt>
       <dd className="flex min-h-11 items-center text-[1.0625rem] font-medium text-white/80 transition-colors sm:min-h-0">

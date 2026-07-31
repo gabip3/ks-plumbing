@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, m, useMotionValueEvent, useScroll } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Logo } from '@/components/brand/Logo';
 import { PhonePulse } from '@/components/ui/Action';
@@ -10,9 +10,13 @@ import { cx } from '@/lib/utils';
 export function Header() {
   const [pinned, setPinned] = useState(false);
   const [open, setOpen] = useState(false);
-  const { scrollY } = useScroll();
 
-  useMotionValueEvent(scrollY, 'change', (v) => setPinned(v > 24));
+  useEffect(() => {
+    const onScroll = () => setPinned(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -162,7 +166,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
     >
       <div aria-hidden className="grid-rule-dark absolute inset-0 opacity-60" />
 
-      <nav aria-label="Mobile" className="relative mt-28 flex-1 overflow-y-auto px-5 sm:px-8">
+      <nav aria-label="Mobile" className="relative mt-24 flex-1 overflow-y-auto px-5 sm:mt-28 sm:px-8">
         <ul>
           {navigation.map((item, i) => (
             <m.li
@@ -175,7 +179,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
               <a
                 href={item.href}
                 onClick={onClose}
-                className="group relative block py-5 text-[2.125rem] font-bold tracking-[-0.045em] text-white transition-colors duration-300 active:text-water sm:text-[2.75rem]"
+                className="group relative block py-4 text-[1.625rem] font-bold tracking-[-0.03em] text-white transition-colors duration-300 active:text-water sm:py-5 sm:text-[2.125rem]"
               >
                 {item.label}
                 <span
