@@ -48,7 +48,9 @@ export function Reviews() {
         </div>
 
         <div className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-12 lg:gap-16">
-          <div className="min-h-[24rem] sm:min-h-[26rem] lg:col-span-8 lg:min-h-[28rem]">
+          {/* Reserved height, so switching between quotes of different lengths
+              never shifts the rail below. Sized to the longest one. */}
+          <div className="min-h-[23rem] sm:min-h-[21rem] lg:col-span-8 lg:min-h-[22rem]">
             <AnimatePresence mode="wait">
               <m.blockquote
                 key={index}
@@ -60,7 +62,10 @@ export function Reviews() {
                 <span aria-hidden className="serif-accent block text-[4rem] leading-[0.4] text-royal/25">
                   &ldquo;
                 </span>
-                <p className="serif-accent mt-6 text-[1.625rem] leading-[1.28] text-navy sm:text-[2.125rem] lg:text-[2.625rem]">
+                {/* Set in the body face rather than the display serif: these
+                    are long paragraphs of someone else's words, and they read
+                    faster and feel more like a real review this way. */}
+                <p className="mt-6 text-[1.25rem] font-medium leading-[1.45] tracking-[-0.015em] text-navy sm:text-[1.5rem] lg:text-[1.75rem]">
                   {review.quote}
                 </p>
                 <footer className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-navy/15 pt-5">
