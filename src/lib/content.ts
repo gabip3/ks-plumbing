@@ -125,6 +125,8 @@ export const processSteps: ProcessStep[] = [
 export type GalleryItem = {
   id: string;
   src: string;
+  /** Narrow variant for phones. Derived from `src` when omitted. */
+  srcSmall?: string;
   alt: string;
   caption: string;
   location: string;

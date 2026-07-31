@@ -20,6 +20,11 @@ type PlateProps = {
   fill?: boolean;
   /** Override when this plate is rendered much larger than the default. */
   sizes?: string;
+  /**
+   * Narrow variant. Local photos follow the `-sm.webp` convention so it is
+   * derived; uploaded ones come from Cloudinary and pass it explicitly.
+   */
+  srcSmall?: string;
 };
 
 const tones = {
@@ -44,6 +49,7 @@ export function Plate({
   tone = 'navy',
   fill,
   sizes,
+  srcSmall,
 }: PlateProps) {
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -128,7 +134,7 @@ export function Plate({
         <img
           ref={settle}
           src={asset(src!)}
-          srcSet={`${asset(src!.replace(/\.webp$/, '-sm.webp'))} 520w, ${asset(src!)} 1200w`}
+          srcSet={`${asset(srcSmall ?? src!.replace(/\.webp$/, '-sm.webp'))} 520w, ${asset(src!)} 1200w`}
           sizes={sizes ?? '(max-width: 640px) 50vw, (max-width: 1024px) 45vw, 500px'}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}

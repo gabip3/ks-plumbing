@@ -4,7 +4,8 @@ import { AnimatePresence, m } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Plate } from '@/components/ui/Plate';
 import { Reveal } from '@/components/ui/Reveal';
-import { galleryCategories, galleryItems } from '@/lib/content';
+import { galleryCategories, galleryItems, type GalleryItem } from '@/lib/content';
+import { cloudUrl, listCloudPhotos } from '@/lib/cloudinary';
 import { cx } from '@/lib/utils';
 
 /**
@@ -17,10 +18,42 @@ export function Gallery() {
   const [filter, setFilter] = useState<string>(galleryCategories[0]);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const [uploaded, setUploaded] = useState<GalleryItem[]>([]);
+
+  /**
+   * Anything Jessica and Kaleb publish from the photo panel is pulled in here
+   * and shown ahead of the photos committed to the repo, so the newest work
+   * leads. If Cloudinary is unreachable the section simply shows what shipped.
+   */
+  useEffect(() => {
+    let live = true;
+    listCloudPhotos()
+      .then((photos) => {
+        if (!live) return;
+        setUploaded(
+          photos.map((p, i) => ({
+            id: `cloud-${p.publicId}`,
+            src: cloudUrl(p, 1000),
+            srcSmall: cloudUrl(p, 520),
+            alt: `${p.category} work by KS Plumbing in the Treasure Valley`,
+            caption: p.category,
+            location: 'Treasure Valley',
+            category: p.category,
+            ratio: (['portrait', 'square', 'landscape', 'tall'] as const)[i % 4],
+          })),
+        );
+      })
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  const all = useMemo(() => [...uploaded, ...galleryItems], [uploaded]);
 
   const items = useMemo(
-    () => (filter === galleryCategories[0] ? galleryItems : galleryItems.filter((i) => i.category === filter)),
-    [filter],
+    () => (filter === galleryCategories[0] ? all : all.filter((i) => i.category === filter)),
+    [filter, all],
   );
 
   const visible = showAll ? items : items.slice(0, FIRST_BATCH);
@@ -123,6 +156,7 @@ export function Gallery() {
                         index={item.id.replace('project-', 'No. ')}
                         alt={item.alt}
                         src={item.src}
+                        srcSmall={item.srcSmall}
                       />
                     </div>
                     <span
@@ -232,6 +266,7 @@ export function Gallery() {
                     index={current.id.replace('project-', 'No. ')}
                     alt={current.alt}
                     src={current.src}
+                    srcSmall={current.srcSmall}
                   />
                 </div>
                 <div className="mt-5 flex flex-wrap items-baseline justify-between gap-3">
