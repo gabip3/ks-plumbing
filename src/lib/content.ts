@@ -15,17 +15,8 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    id: 'emergency-plumbing',
-    index: '01',
-    title: 'Emergency Plumbing',
-    lead: 'Burst line, no water, drain backing up.',
-    body: 'Call or text and we work you into the schedule as fast as we can. We talk you through shutting the water off while you wait, and the repair starts on that first visit.',
-    details: ['Water shut-off guidance by phone', 'Same-visit repair', 'Call or text'],
-    image: '/assets/services/service-emergency.webp',
-  },
-  {
     id: 'water-treatment',
-    index: '02',
+    index: '01',
     title: 'Water Treatment',
     lead: 'Hard water, handled.',
     body: 'Softeners, carbon filtration and full treatment systems, installed or replaced. Treasure Valley water is hard, and it is what shortens the life of every fixture and heater in the house.',
@@ -34,7 +25,7 @@ export const services: Service[] = [
   },
   {
     id: 'drain-cleaning',
-    index: '03',
+    index: '02',
     title: 'Drain Cleaning',
     lead: 'Slow sinks and main line backups.',
     body: 'We cable the line, hydro-jet the grease and scale off the walls of the pipe, then run a camera through it so you can see what caused it.',
@@ -43,7 +34,7 @@ export const services: Service[] = [
   },
   {
     id: 'water-heater',
-    index: '04',
+    index: '03',
     title: 'Water Heater',
     lead: 'Hot water, sized to your house.',
     body: 'Repairs, straight swaps and tankless conversions. Gas, electric or hybrid, sized around how many showers actually run at 7 a.m. instead of a generic chart.',
@@ -52,7 +43,7 @@ export const services: Service[] = [
   },
   {
     id: 'pipe-repair',
-    index: '05',
+    index: '04',
     title: 'Pipe Repair & Repipe',
     lead: 'From a pinhole to the whole house.',
     body: 'Frozen splits, failing galvanized, slab leaks and pinholes in copper. We repair the section when that is honest, and repipe in PEX or copper when it is not.',
@@ -61,7 +52,7 @@ export const services: Service[] = [
   },
   {
     id: 'fixture-installation',
-    index: '06',
+    index: '05',
     title: 'Fixture Installation',
     lead: 'Set level, sealed, tested.',
     body: 'Faucets, toilets, tubs, sinks, disposals, pot fillers and hose bibs. Old unit hauled away, new one pressure tested before we pack up.',
@@ -70,7 +61,7 @@ export const services: Service[] = [
   },
   {
     id: 'commercial-plumbing',
-    index: '07',
+    index: '06',
     title: 'Commercial Plumbing',
     lead: 'Work that fits around your hours.',
     body: 'Restaurants, offices and multi-unit buildings across the Valley. Grease lines, backflow testing and tenant improvements, scheduled around your hours when the floor has to stay open.',
@@ -79,7 +70,7 @@ export const services: Service[] = [
   },
   {
     id: 'residential-plumbing',
-    index: '08',
+    index: '07',
     title: 'Residential Plumbing',
     lead: 'Everything a house asks for.',
     body: 'New construction rough-in, remodel plumbing, pressure regulators, hose bibs, and the short list of small things you keep meaning to call about.',
@@ -378,10 +369,10 @@ export type Review = {
 export const reviews: Review[] = [
   {
     quote:
-      'Water was coming through the kitchen ceiling. They talked me through shutting the main off on the phone, got out to the house that day, and had the line fixed on the first visit. I have never had a trade answer the phone that fast.',
+      'They replaced two toilets and a kitchen faucet in one afternoon, walked me through what each part actually was, and left the bathroom cleaner than they found it. Straightforward pricing, no surprises on the invoice.',
     name: 'Danielle R.',
     location: 'North End, Boise',
-    job: 'Emergency repair',
+    job: 'Fixture installation',
     rating: 5,
   },
   {
@@ -434,12 +425,7 @@ export const faqs: Faq[] = [
   {
     question: 'How fast can you get to me?',
     answer:
-      'Call or text and we will tell you honestly where you land in the day. Something actively causing damage, like a burst line, a sewage backup or no water in the house, moves to the front of the schedule.',
-  },
-  {
-    question: 'Do you handle emergencies?',
-    answer:
-      'Yes, during our working hours. We are not a 24 hour call center, so if something breaks overnight, shut the water off at the main and call us first thing. We will talk you through it on the phone and get you on the schedule that day.',
+      'Call or text and we will give you an honest window based on how the day is booked. Same-day is common across the Valley, and we will always tell you straight if it is going to be a day or two instead.',
   },
   {
     question: 'Do you warranty the work?',

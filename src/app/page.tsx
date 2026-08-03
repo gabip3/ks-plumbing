@@ -5,7 +5,6 @@ import { About } from '@/components/sections/About';
 import { Areas } from '@/components/sections/Areas';
 import { BeforeAfter } from '@/components/sections/BeforeAfter';
 import { Contact } from '@/components/sections/Contact';
-import { Emergency } from '@/components/sections/Emergency';
 import { Faq } from '@/components/sections/Faq';
 import { Gallery } from '@/components/sections/Gallery';
 import { Hero } from '@/components/sections/Hero';
@@ -18,7 +17,7 @@ import { ScrollSpine } from '@/components/ui/ScrollSpine';
 import { Ticker } from '@/components/ui/Ticker';
 
 const tickerItems = [
-  'Emergency repairs',
+  'Same-day scheduling',
   'Free estimates',
   'Licensed & insured in Idaho',
   'Serving the whole Treasure Valley',
@@ -38,7 +37,6 @@ export default function HomePage() {
         <Services />
         <PipeDivider />
         <About />
-        <Emergency />
         <PipeDivider />
         <Process />
         <Gallery />

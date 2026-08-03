@@ -63,7 +63,6 @@ const JOBS = [
   ['water-heater.jpg', 'services/service-heater.webp', 'portraitLow'],
   ['water-treatment.jpg', 'services/service-treatment.webp', 'portraitHigh'],
 
-  ['ks12.jpg', 'services/service-emergency.webp', 'portrait'],
   ['ks20.jpg', 'services/service-drain.webp', 'portrait'],
   ['ks10.jpg', 'services/service-pipe.webp', 'portrait'],
   ['ks03.jpg', 'services/service-fixture.webp', 'portrait'],

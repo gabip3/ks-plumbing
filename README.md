@@ -24,20 +24,18 @@ Two motifs carry the page so no section needs decoration of its own:
 - **Hairline blueprint grid** at 4 to 7 percent opacity.
 - **A run of pipe.** A real cylinder, shaded across its width with a dark edge,
   a specular band, a core shadow and reflected light. A union nut rides down
-  the left edge of the viewport as you scroll while water fills the bore; the
-  process timeline is a length of pipe that fills as you read it; the emergency
-  band is split by one with a single slow drip. The compare slider handle is a
+  the left edge of the viewport as you scroll while water fills the bore, with
+  a single slow drip off the rail in the hero; the process timeline is a
+  length of pipe that fills as you read it. The compare slider handle is a
   knurled coupling.
 
 **Type.** `Archivo` for the display headings, set very tight. `Poppins` for
 every running paragraph, label and button. `Instrument Serif` italic for one
 phrase per section. `IBM Plex Mono` for index numbers and phone numbers.
 
-**Rhythm.** No section repeats the one before it. Blue field, light, light,
-black band, light, dark, light, light, white, dark, full-bleed split, black.
-Services is an editorial index with a plate pinned beside it, About is an
-off-grid spread, Emergency is one phone number on a black band, Process is a
-timeline, Gallery is masonry with a lightbox, Before and After is a drag
+**Rhythm.** No section repeats the one before it. Services is an editorial
+index with a plate pinned beside it, About is an off-grid spread, Process is
+a timeline, Gallery is masonry with a lightbox, Before and After is a drag
 slider, Reviews is a single stage with a rail, FAQ is sticky plus accordion,
 Areas is a map made of type, Contact is a hard split at the viewport centre.
 
@@ -132,8 +130,8 @@ sits on white, because the navy "K" disappears against a dark browser tab.
    `src/components/seo/JsonLd.tsx`. It is deliberately left out while the quotes
    are stand-ins, because publishing review markup for reviews that do not exist
    will get the site penalised.
-3. **The form.** Set `FORM_ENDPOINT` in
-   `src/components/forms/ContactForm.tsx`. See below.
+3. **The form.** Wired to Web3Forms already. See below if the access key
+   ever needs rotating.
 4. **Business details.** Street address, hours and the `postalCode` in
    `src/lib/site.ts`. The postal code there is a placeholder for Boise.
 5. **The logo's curved tagline.** In the supplied artwork the bottom arc reads
@@ -144,34 +142,27 @@ sits on white, because the navy "K" disappears against a dark browser tab.
 
 ## The contact form
 
-No backend is included. `src/components/forms/ContactForm.tsx` exposes one
-constant:
+No backend of our own — `src/components/forms/ContactForm.tsx` posts straight
+to Web3Forms, which delivers to the shop's inbox. The two constants near the
+top of that file:
 
 ```ts
-const FORM_ENDPOINT = '';
+const WEB3FORMS_ACCESS_KEY = '4f929fe5-0377-42ea-ae98-42392930cda1';
+const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
 ```
 
-**Left empty** (the default) the form opens a pre-filled email to
-`ksplumbingidaho@gmail.com` with every field laid out, so the site can go live
-without losing a single lead.
+The access key is not a secret — Web3Forms is designed to be called directly
+from the browser, the same way a Formspree or Basin endpoint is public. To
+point it at a different inbox, generate a new key at web3forms.com (enter the
+receiving email, the key arrives by email in seconds) and swap the value.
 
-**Set to a URL** the form `POST`s JSON instead:
+Name, phone and email are required, so every submission carries an email —
+that is what lets the shop hit "Reply" in Gmail and land straight in the
+customer's inbox via the `replyto` field, rather than a dead-end address.
 
-```json
-{
-  "name": "Jordan Miller",
-  "phone": "(208) 555-0146",
-  "email": "jordan@example.com",
-  "service": "Water Heater",
-  "message": "Leaking from the bottom of the tank.",
-  "emergency": true,
-  "submittedAt": "2026-07-31T18:04:00.000Z"
-}
-```
-
-That shape works as-is with Formspree, Basin, Web3Forms, a Netlify function, a
-Zapier catch hook, or a CRM webhook. Success and failure states are wired up,
-and both fall back to showing the phone number.
+A hidden honeypot field (`botcheck`) catches basic bots before the request
+ever reaches the network: a real visitor never sees or fills it, so a filled
+value is treated as spam and silently dropped.
 
 ---
 

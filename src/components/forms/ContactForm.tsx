@@ -5,7 +5,6 @@ import { useState, type FormEvent } from 'react';
 import { Arrow } from '@/components/ui/Action';
 import { services } from '@/lib/content';
 import { site } from '@/lib/site';
-import { cx } from '@/lib/utils';
 
 /**
  * Web3Forms delivers submissions straight to the shop's inbox — no server of
@@ -25,12 +24,10 @@ export type Lead = {
   email: string;
   service: string;
   message: string;
-  emergency: boolean;
   submittedAt: string;
 };
 
 export function ContactForm() {
-  const [emergency, setEmergency] = useState(false);
   const [status, setStatus] = useState<Status>('idle');
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -53,7 +50,6 @@ export function ContactForm() {
       email: data.email ?? '',
       service: data.service ?? '',
       message: data.message ?? '',
-      emergency,
       submittedAt: new Date().toISOString(),
     };
 
@@ -64,7 +60,7 @@ export function ContactForm() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `${emergency ? '[EMERGENCY] ' : ''}Service request from ${payload.name}`,
+          subject: `Service request from ${payload.name}`,
           from_name: payload.name,
           // Email is a required field, so this is always set — it's what
           // lets the shop hit "Reply" in their inbox and land straight in the
@@ -78,7 +74,6 @@ export function ContactForm() {
         .catch(() => null);
       if (!res.ok || !result?.success) throw new Error(result?.message ?? String(res.status));
       form.reset();
-      setEmergency(false);
       setStatus('sent');
     } catch {
       setStatus('error');
@@ -165,46 +160,11 @@ export function ContactForm() {
         </div>
       </div>
 
-      {/* Emergency toggle — the only switch on the site, so it gets its own treatment */}
-      <button
-        type="button"
-        role="switch"
-        aria-checked={emergency}
-        onClick={() => setEmergency((v) => !v)}
-        className={cx(
-          'mt-10 flex w-full items-center gap-4 border p-4 text-left transition-colors duration-500 sm:p-5',
-          emergency ? 'border-signal bg-signal/8' : 'border-navy/15 hover:border-navy/35',
-        )}
-      >
-        <span
-          className={cx(
-            'relative flex h-6 w-6 shrink-0 items-center justify-center border transition-colors duration-400',
-            emergency ? 'border-signal bg-signal text-white' : 'border-navy/30 text-transparent',
-          )}
-        >
-          <svg viewBox="0 0 12 10" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M1 5l3.2 3.2L11 1.4" strokeLinecap="square" />
-          </svg>
-        </span>
-        <span>
-          <span className={cx('block text-[1.125rem] font-bold', emergency ? 'text-signal' : 'text-navy')}>
-            This is an emergency
-          </span>
-          <span className="mt-1 block text-[1.0625rem] font-medium leading-relaxed text-navy/65">
-            Flags the request for immediate dispatch. For anything actively flooding, calling is
-            still faster than typing.
-          </span>
-        </span>
-      </button>
-
-      <div className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="submit"
           disabled={status === 'sending'}
-          className={cx(
-            'group inline-flex h-14 items-center gap-3 px-8 text-[1.0625rem] font-bold tracking-[0.01em] text-white transition-colors duration-500 disabled:opacity-60',
-            emergency ? 'bg-signal hover:bg-signal/85' : 'bg-royal hover:bg-royal-deep',
-          )}
+          className="group inline-flex h-14 items-center gap-3 bg-royal px-8 text-[1.0625rem] font-bold tracking-[0.01em] text-white transition-colors duration-500 hover:bg-royal-deep disabled:opacity-60"
         >
           <span className="relative block h-[1.5em] overflow-hidden">
             <span className="block leading-[1.5] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full">

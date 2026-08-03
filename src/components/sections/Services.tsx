@@ -30,7 +30,7 @@ export function Services() {
               <MaskLines
                 className="block"
                 lines={[
-                  'Eight things',
+                  'Seven things',
                   <>
                     we do <span className="serif-accent text-royal">properly.</span>
                   </>,
