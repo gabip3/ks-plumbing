@@ -66,7 +66,10 @@ export function ContactForm() {
           access_key: WEB3FORMS_ACCESS_KEY,
           subject: `${emergency ? '[EMERGENCY] ' : ''}Service request from ${payload.name}`,
           from_name: payload.name,
-          replyto: payload.email || undefined,
+          // Email is a required field, so this is always set — it's what
+          // lets the shop hit "Reply" in their inbox and land straight in the
+          // customer's, instead of a Web3Forms address that goes nowhere.
+          replyto: payload.email,
           ...payload,
         }),
       });
@@ -114,6 +117,7 @@ export function ContactForm() {
           autoComplete="email"
           placeholder="you@example.com"
           className="sm:col-span-2"
+          required
         />
 
         <div className="sm:col-span-2">
