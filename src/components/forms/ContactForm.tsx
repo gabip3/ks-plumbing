@@ -8,14 +8,14 @@ import { site } from '@/lib/site';
 import { cx } from '@/lib/utils';
 
 /**
- * Where the form posts.
- *
- * Leave empty and the form falls back to opening a pre-filled email to the
- * shop, so no lead is ever lost. Point it at a form endpoint (Formspree,
- * Basin, a Netlify function, your CRM webhook…) and it will POST JSON instead:
- *   { name, phone, email, service, message, emergency, submittedAt }
+ * Web3Forms delivers submissions straight to the shop's inbox — no server of
+ * our own required. The access key is not a secret: Web3Forms is designed to
+ * be called directly from the browser, the same way a Formspree or Basin
+ * endpoint is public. Rotate it any time at web3forms.com if it ever needs
+ * changing, and swap the value here.
  */
-const FORM_ENDPOINT = '';
+const WEB3FORMS_ACCESS_KEY = '4f929fe5-0377-42ea-ae98-42392930cda1';
+const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -37,6 +37,16 @@ export function ContactForm() {
     event.preventDefault();
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+
+    // Honeypot: invisible to a real visitor, but a bot that fills in every
+    // field on the page fills this one too. A non-empty value is spam, so we
+    // pretend to succeed and drop it rather than spending an API call on it.
+    if (data.botcheck) {
+      form.reset();
+      setStatus('sent');
+      return;
+    }
+
     const payload: Lead = {
       name: data.name ?? '',
       phone: data.phone ?? '',
@@ -47,31 +57,23 @@ export function ContactForm() {
       submittedAt: new Date().toISOString(),
     };
 
-    if (!FORM_ENDPOINT) {
-      const body = [
-        `Name: ${payload.name}`,
-        `Phone: ${payload.phone}`,
-        `Email: ${payload.email}`,
-        `Service: ${payload.service}`,
-        `Emergency: ${emergency ? 'Yes' : 'No'}`,
-        '',
-        payload.message,
-      ].join('\n');
-      window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(
-        `${emergency ? '[EMERGENCY] ' : ''}Service request from ${payload.name}`,
-      )}&body=${encodeURIComponent(body)}`;
-      setStatus('sent');
-      return;
-    }
-
     try {
       setStatus('sending');
-      const res = await fetch(FORM_ENDPOINT, {
+      const res = await fetch(WEB3FORMS_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `${emergency ? '[EMERGENCY] ' : ''}Service request from ${payload.name}`,
+          from_name: payload.name,
+          replyto: payload.email || undefined,
+          ...payload,
+        }),
       });
-      if (!res.ok) throw new Error(String(res.status));
+      const result: { success?: boolean; message?: string } | null = await res
+        .json()
+        .catch(() => null);
+      if (!res.ok || !result?.success) throw new Error(result?.message ?? String(res.status));
       form.reset();
       setEmergency(false);
       setStatus('sent');
@@ -82,6 +84,19 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate={false} className="mt-10 sm:mt-12">
+      {/* Honeypot for the spam check in handleSubmit above. sr-only rather
+          than display:none, since some bots skip fields that are display:none.
+          Clipped to 1px in place rather than pushed off-screen, so it can
+          never add to the page's scrollable width. */}
+      <input
+        type="text"
+        name="botcheck"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="sr-only"
+      />
+
       <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
         <Field label="Name" name="name" autoComplete="name" placeholder="Jordan Miller" required />
         <Field
