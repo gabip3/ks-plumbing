@@ -53,7 +53,7 @@ export function Emergency() {
           </Reveal>
           <Reveal delay={0.05}>
             <span className="text-[1.0625rem] font-semibold text-white/60">
-              Monday to Saturday
+              Monday to Friday, 8 to 5
             </span>
           </Reveal>
         </div>

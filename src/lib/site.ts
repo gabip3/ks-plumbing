@@ -31,11 +31,10 @@ export const site = {
     country: 'US',
   },
   geo: { lat: 43.615, lng: -116.2023 },
-  /** CONFIRM WITH THE CLIENT before launch. These are placeholders. */
+  /** Confirmed by the client. */
   hours: [
-    { label: 'Monday to Friday', value: '7:00 AM to 6:00 PM' },
-    { label: 'Saturday', value: '8:00 AM to 4:00 PM' },
-    { label: 'Sunday', value: 'Closed' },
+    { label: 'Monday to Friday', value: '8:00 AM to 5:00 PM' },
+    { label: 'Saturday & Sunday', value: 'Closed' },
   ],
   credentials: ['Licensed & insured in Idaho', 'Free estimates', 'Workmanship warranty'],
 } as const;
