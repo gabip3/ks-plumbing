@@ -54,9 +54,10 @@ export function About() {
 
           <Reveal delay={0.1} className="lg:col-span-6 lg:col-start-7">
             <p className="max-w-[54ch] text-[1.0625rem] font-medium leading-relaxed text-navy/75 sm:text-[1.125rem]">
-              KS Plumbing is a local shop out of Boise. The person who answers the phone is the
-              person who shows up, and the work is done by plumbers who have been at it long
-              enough to know when a repair will hold and when it is a band-aid.
+              KS Plumbing is a local crew based in Boise, on the road across the Treasure Valley
+              every day. The person who answers the phone is the person who shows up, and the
+              work is done by plumbers who have been at it long enough to know when a repair
+              will hold and when it is a band-aid.
             </p>
             <p className="mt-5 max-w-[54ch] text-[1.0625rem] font-medium leading-relaxed text-navy/75 sm:text-[1.125rem]">
               We keep the crew small on purpose, so the standard is the same on the tenth call of
